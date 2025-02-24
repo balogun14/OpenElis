@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  openelis:
+    build:
+      context: .
+      dockerfile: Dockerfile  # Your provided Dockerfile
+    image: custom-openelis
+    ports:
+      - "8052:8052"  # Maps container's SERVER_PORT to host
+      - "8001:8001"  # Maps debug port
+    environment:
+      - SERVER_PORT=8052
+      - BASE_DIR=/var/run/bahmni-lab
+      - CONTEXT_PATH=/openelis
+      - WAR_DIRECTORY=/var/run/bahmni-lab/bahmni-lab
+      - SERVER_OPTS=-Xms512m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m
+      - DEBUG_OPTS=-agentlib:jdwp=transport=dt_socket,address=8001,server=y,suspend=n
+      - OPENELIS_DB_SERVER=openelisdb  # Matches service name below
+    depends_on:
+      - openelisdb
+    networks:
+      - bahmni-net
+
+  openelisdb:
+    image: postgres:13  # Common version compatible with OpenELIS
+    environment:
+      - POSTGRES_USER=openelis
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=openelis
+    ports:
+      - "5432:5432"  # Expose DB port to host (optional)
+    volumes:
+      - pgdata:/var/lib/postgresql/data  # Persist DB data
+    networks:
+      - bahmni-net
+
+networks:
+  bahmni-net:
+    driver: bridge
+
+volumes:
+  pgdata:
