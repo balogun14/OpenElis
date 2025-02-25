@@ -89,7 +89,7 @@
                 mergepropertyfile="${target}/BahmniMessageResources.properties"
                 outputpropertyfile="${target}/MessageResources.properties"
                 native2ascii="true"/>
-        <war destfile="${dist}/openelis.war">
+        <war destfile="package/docker/openelis/openelis.war">
             <classes dir="${target}"/>
             <fileset dir="${web}"/>
             <fileset file="${dist}/LICENSE"/>            
@@ -98,7 +98,7 @@
     </target>
 
     <target name="migrationScripts">
-        <zip destfile="OpenElis.zip" basedir="../" includes="OpenElis**/**" excludes="**/.idea/**,*.iml,*.git*,**/dist/*,**/target/*,*.svn*,**/out/**,**/openelis/**,**/src/**,**/logs/**,**/junit/*,**/OpenElis.zip" />
+        <zip destfile="package/docker/openelis/OpenElis.zip" basedir="../" includes="OpenElis**/**" excludes="**/.idea/**,*.iml,*.git*,**/dist/*,**/target/*,*.svn*,**/out/**,**/openelis/**,**/src/**,**/logs/**,**/junit/*,**/OpenElis.zip" />
     </target>
 
     <target name="build" depends="clean, compile, resetDB, test, report, dist"/>

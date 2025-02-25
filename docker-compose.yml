@@ -3,8 +3,8 @@ version: '3.8'
 services:
   openelis:
     build:
-      context: .
-      dockerfile: Dockerfile  # Your provided Dockerfile
+      context: package/docker/openelis
+      dockerfile: Dockerfile
     image: custom-openelis
     ports:
       - "8052:8052"  # Maps container's SERVER_PORT to host
